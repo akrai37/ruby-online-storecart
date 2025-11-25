@@ -1,0 +1,57 @@
+<h1>Checkout</h1>
+
+<div class="checkout-container">
+  <div class="checkout-form">
+    <h2>Shipping Information</h2>
+    
+    <%= form_with model: @order, url: orders_path, local: true do |f| %>
+      <% if @order.errors.any? %>
+        <div class="errors">
+          <h3><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h3>
+          <ul>
+            <% @order.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :customer_name, "Full Name" %>
+        <%= f.text_field :customer_name, required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :customer_email, "Email" %>
+        <%= f.email_field :customer_email, required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :customer_address, "Shipping Address" %>
+        <%= f.text_area :customer_address, required: true, rows: 4, class: "form-control" %>
+      </div>
+
+      <div class="form-actions">
+        <%= link_to "Back to Cart", cart_path, class: "btn btn-secondary" %>
+        <%= f.submit "Place Order", class: "btn btn-primary btn-large" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    
+    <table class="summary-table">
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td><%= item[:product].name %> × <%= item[:quantity] %></td>
+          <td>$<%= number_with_precision(item[:product].price * item[:quantity], precision: 2) %></td>
+        </tr>
+      <% end %>
+      <tr class="total-row">
+        <td><strong>Total:</strong></td>
+        <td><strong>$<%= number_with_precision(@total, precision: 2) %></strong></td>
+      </tr>
+    </table>
+  </div>
+</div>

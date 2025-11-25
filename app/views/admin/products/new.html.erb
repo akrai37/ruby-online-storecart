@@ -1,0 +1,12 @@
+<div class="admin-form">
+  <h1>Add New Product</h1>
+  
+  <%= form_with model: @product, url: admin_products_path, local: true do |f| %>
+    <%= render 'form', f: f %>
+    
+    <div class="form-actions">
+      <%= f.submit "Create Product", class: "btn btn-primary" %>
+      <%= link_to "Cancel", admin_products_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

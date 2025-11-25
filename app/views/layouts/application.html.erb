@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tech Store - Online Shop</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        setTimeout(function() {
+          alert.style.transition = 'opacity 0.5s ease';
+          alert.style.opacity = '0';
+          setTimeout(function() {
+            alert.remove();
+          }, 500);
+        }, 3000);
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <%= link_to "Tech Store", root_path %>
+      </div>
+      <div class="nav-links">
+        <%= link_to "Products", products_path %>
+        <%= link_to "Cart (#{cart_count})", cart_path, class: "cart-link" %>
+        <% if session[:admin_id] %>
+          <%= link_to "Admin Dashboard", admin_dashboard_path %>
+          <%= button_to "Logout", admin_logout_path, method: :delete, class: "btn-logout" %>
+        <% else %>
+          <%= link_to "Admin Login", admin_login_path %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <% if notice %>
+      <div class="alert alert-success"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger"><%= alert %></div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Tech Store. AWProgramming-278 Assignment.</p>
+    </div>
+  </footer>
+</body>
+</html>

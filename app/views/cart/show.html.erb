@@ -1,0 +1,45 @@
+<h1>Shopping Cart</h1>
+
+<% if @cart_items.empty? %>
+  <p class="empty-cart">Your cart is empty.</p>
+  <%= link_to "Browse Products", products_path, class: "btn btn-primary" %>
+<% else %>
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td>
+            <%= link_to item[:product].name, product_path(item[:product]) %>
+          </td>
+          <td>$<%= number_with_precision(item[:product].price, precision: 2) %></td>
+          <td><%= item[:quantity] %></td>
+          <td>$<%= number_with_precision(item[:product].price * item[:quantity], precision: 2) %></td>
+          <td>
+            <%= button_to "Remove", remove_from_cart_path(item[:product].id), method: :delete, class: "btn btn-danger btn-small" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><strong>Total:</strong></td>
+        <td colspan="2"><strong>$<%= number_with_precision(@total, precision: 2) %></strong></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="cart-actions">
+    <%= link_to "Continue Shopping", products_path, class: "btn btn-secondary" %>
+    <%= button_to "Clear Cart", clear_cart_path, method: :delete, class: "btn btn-outline", data: { confirm: "Are you sure?" } %>
+    <%= link_to "Proceed to Checkout", checkout_path, class: "btn btn-primary btn-large" %>
+  </div>
+<% end %>

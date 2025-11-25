@@ -1,0 +1,35 @@
+<div class="product-detail">
+  <div class="product-detail-container">
+    <div class="product-detail-image">
+      <img src="<%= @product.image_url %>" alt="<%= @product.name %>" />
+    </div>
+    
+    <div class="product-detail-info">
+      <h1><%= @product.name %></h1>
+      
+      <p class="product-detail-price">$<%= number_with_precision(@product.price, precision: 2) %></p>
+      
+      <p class="product-detail-stock">
+        <% if @product.stock > 0 %>
+          <span class="in-stock">✓ In Stock (<%= @product.stock %> available)</span>
+        <% else %>
+          <span class="out-of-stock">✗ Out of Stock</span>
+        <% end %>
+      </p>
+      
+      <div class="product-detail-description">
+        <h3>Description</h3>
+        <p><%= @product.description %></p>
+      </div>
+      
+      <div class="product-detail-actions">
+        <% if @product.stock > 0 %>
+          <%= button_to "Add to Cart", add_to_cart_path(@product), class: "btn btn-primary btn-large" %>
+        <% else %>
+          <button class="btn btn-disabled btn-large" disabled>Out of Stock</button>
+        <% end %>
+        <%= link_to "← Back to Products", products_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+</div>

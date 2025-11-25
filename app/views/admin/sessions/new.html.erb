@@ -1,0 +1,22 @@
+<div class="admin-login">
+  <h1>Admin Login</h1>
+  
+  <%= form_with url: admin_login_path, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :username %>
+      <%= f.text_field :username, required: true, class: "form-control", autofocus: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, required: true, class: "form-control" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Login", class: "btn btn-primary" %>
+      <%= link_to "Back to Store", root_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+  
+  <p class="admin-hint">Default credentials: admin / admin123</p>
+</div>

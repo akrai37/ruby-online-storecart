@@ -1,0 +1,48 @@
+<div class="order-confirmation">
+  <h1>✓ Order Confirmed!</h1>
+  
+  <p class="success-message">Thank you for your order! We'll send a confirmation email to <%= @order.customer_email %></p>
+  
+  <div class="order-details">
+    <h2>Order Details</h2>
+    
+    <div class="order-info">
+      <p><strong>Order ID:</strong> #<%= @order.id %></p>
+      <p><strong>Order Date:</strong> <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <p><strong>Customer Name:</strong> <%= @order.customer_name %></p>
+      <p><strong>Email:</strong> <%= @order.customer_email %></p>
+      <p><strong>Shipping Address:</strong><br>
+      <%= @order.customer_address.gsub("\n", "<br>").html_safe %></p>
+    </div>
+    
+    <h3>Items Ordered</h3>
+    <table class="order-items-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr>
+            <td><%= item[:product].name %></td>
+            <td>$<%= number_with_precision(item[:product].price, precision: 2) %></td>
+            <td><%= item[:quantity] %></td>
+            <td>$<%= number_with_precision(item[:product].price * item[:quantity], precision: 2) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total:</strong></td>
+          <td><strong>$<%= number_with_precision(@order.total, precision: 2) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  
+  <%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>
+</div>
